@@ -22,7 +22,7 @@
       --border:      #E0E7F0;
       --canvas-bg:   #0D1117;
       --radius:      20px;
-      --header-h:    58px;
+      --header-h:    96px;
     }
 
     /* ============================
@@ -295,15 +295,33 @@
       position: sticky;
       top: 0;
       z-index: 200;
+      display: flex;
+      flex-direction: column;
+      background: rgba(247,248,252,0.95);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-top {
       height: var(--header-h);
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 0 2rem;
-      background: rgba(247,248,252,0.90);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--border);
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      padding: 0 1.5rem 0.4rem;
+      flex-wrap: wrap;
+      border-top: 1px solid var(--border);
+    }
+
+    [data-theme="dark"] header {
+      background: rgba(10,11,30,0.95);
     }
 
     .logo {
@@ -576,8 +594,10 @@
        RESPONSIVE
     ============================ */
     @media (max-width: 720px) {
-      header  { padding: 0 1rem; }
-      nav     { display: none; }
+      header  { padding: 0; }
+      .header-top { padding: 0 1rem; }
+      .header-nav { display: none; }
+      :root { --header-h: 58px; }
       .side-dots { display: none; }
       .sec-inner { padding: 3rem 1.25rem; }
       .cw { min-height: 260px; }
@@ -1574,8 +1594,18 @@
 
 <!-- ─── HEADER ─── -->
 <header>
-  <a href="#hero" class="logo">☀️ Luz <span class="amp">&</span> Cores</a>
-  <nav id="mainNav">
+  <div class="header-top">
+    <a href="#hero" class="logo">☀️ Luz <span class="amp">&</span> Cores</a>
+    <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
+      <button id="prof-btn" title="Modo Professor">👩‍🏫 Professor</button>
+      <button id="sound-toggle" title="Som ambiente">🔊</button>
+      <button id="theme-toggle" title="Alternar modo claro/escuro">
+        <span id="theme-icon"></span>
+        <span id="theme-label">Escuro</span>
+      </button>
+    </div>
+  </div>
+  <nav id="mainNav" class="header-nav">
     <a href="#s1">O que é Luz</a>
     <a href="#s2">Propagação</a>
     <a href="#s3">Transmissão</a>
@@ -1591,14 +1621,6 @@
     <a href="#s14">Arco-íris</a>
     <a href="#s9">Quiz</a>
   </nav>
-  <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;margin-left:8px;">
-    <button id="prof-btn" title="Modo Professor">👩‍🏫 Professor</button>
-    <button id="sound-toggle" title="Som ambiente">🔊</button>
-    <button id="theme-toggle" title="Alternar modo claro/escuro">
-      <span id="theme-icon"></span>
-      <span id="theme-label">Escuro</span>
-    </button>
-  </div>
 </header>
 
 <!-- ─── GLOSSÁRIO LATERAL ─── -->
