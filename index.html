@@ -94,6 +94,43 @@
     #theme-toggle:hover { background: #bfdbfe; }
     [data-theme="dark"] #theme-toggle:hover { background: #2A3A6E; }
 
+    #theme-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+    /* SVG moon icon (default/light mode) */
+    #theme-icon::before {
+      content: '';
+      display: block;
+      width: 14px;
+      height: 14px;
+      background: currentColor;
+      border-radius: 50%;
+      box-shadow: -4px -1px 0 2px var(--primary-pale);
+      transition: box-shadow 0.3s, transform 0.3s;
+    }
+    /* SVG sun icon (dark mode) */
+    [data-theme="dark"] #theme-icon::before {
+      box-shadow:
+        0 0 0 2px var(--primary),
+        0 -6px 0 1px var(--primary),
+        0  6px 0 1px var(--primary),
+        -6px 0 0 1px var(--primary),
+         6px 0 0 1px var(--primary),
+        -4px -4px 0 1px var(--primary),
+         4px -4px 0 1px var(--primary),
+        -4px  4px 0 1px var(--primary),
+         4px  4px 0 1px var(--primary);
+      width: 8px;
+      height: 8px;
+      margin: 3px;
+    }
+    [data-theme="dark"] #theme-toggle:hover { background: #2A3A6E; }
+
     /* ============================
        SOUND TOGGLE BUTTON
     ============================ */
@@ -1558,7 +1595,7 @@
     <button id="prof-btn" title="Modo Professor">👩‍🏫 Professor</button>
     <button id="sound-toggle" title="Som ambiente">🔊</button>
     <button id="theme-toggle" title="Alternar modo claro/escuro">
-      <span id="theme-icon">🌙</span>
+      <span id="theme-icon"></span>
       <span id="theme-label">Escuro</span>
     </button>
   </div>
@@ -3505,7 +3542,9 @@
    SISTEMA DE XP, CONQUISTAS E PROGRESSO
 ================================================= */
 const LuzXP = (function () {
-  const STORAGE_KEY = 'luzecores_v2'; /* v2 — limpa dados da versão anterior */
+  const STORAGE_KEY = 'luzecores_v4'; /* v4 — estado limpo */
+  /* Limpa TODAS as chaves antigas ao iniciar */
+  try { ['luzecores_v1','luzecores_v2','luzecores_v3'].forEach(k => localStorage.removeItem(k)); } catch {}
   const XP_PER_SECTION = 100;
   const TOTAL_SECTIONS = 14; // s1–s14
   const MAX_XP = TOTAL_SECTIONS * XP_PER_SECTION;
@@ -5270,10 +5309,8 @@ document.querySelectorAll('.reveal').forEach(el => ioReveal.observe(el));
   function applyTheme(theme) {
     root.setAttribute('data-theme', theme);
     if (theme === 'dark') {
-      icon.textContent  = '☀️';
       label.textContent = 'Claro';
     } else {
-      icon.textContent  = '🌙';
       label.textContent = 'Escuro';
     }
     localStorage.setItem(STORE_KEY, theme);
